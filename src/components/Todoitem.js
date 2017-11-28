@@ -1,4 +1,5 @@
 import React from 'react'
+// import InputForm from './Input'
 
 const emojiCheck = (completed) => {
     let emoji = '✗'
@@ -8,14 +9,15 @@ const emojiCheck = (completed) => {
     return emoji
 }
 
-function ToDoItem ({ 
+function ToDoItem ({
     completed = false,
     emoji = emojiCheck(completed),
     description,
-    onToggleCompleted
+    onToggleCompleted,
+    onDescriptionUpdate
 }) {
     return (
-        <label>
+        <div>
             <button 
                 type="button"
                 value={ completed }
@@ -30,8 +32,17 @@ function ToDoItem ({
             >
                 { emoji }
             </button>
-            { description }
-        </label>
+            <input 
+                type="text"
+                value={ description }
+                onChange={
+                    (event) => {
+                        description = event.target.value
+                        onDescriptionUpdate(description)
+                    }
+                }
+            />
+        </div>
     )
 }
 

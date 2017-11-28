@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import ToDoItem from './components/Todoitem'
 
+
+
   // UI
 class App extends Component {
 
@@ -57,6 +59,24 @@ class App extends Component {
     })
   }
 
+  onDescriptionEdit = (index, description) => {
+    this.setState((prevState) => {
+      const beforeItems = prevState.items
+      const afterItems = beforeItems.map((item, currentIndex) => {
+        if (currentIndex === index) {
+          const copy = { ...item, description: description }
+          return copy
+        }
+        else {
+          return item
+        }
+      })
+      return {
+        items: afterItems
+      }
+    })
+  }
+  
   render() {
     const items = this.state.items
     const total = items.length
@@ -72,7 +92,9 @@ class App extends Component {
     })
 
     return (
+
       <div className="App">
+
         <dl>
           <dt>Total</dt>
           <dd>{ total }</dd>
@@ -81,6 +103,37 @@ class App extends Component {
           <dt>Total Incompleted</dt>
           <dd>{ totalIncompleted }</dd>
         </dl>
+
+        <h1>Incompleted</h1>
+        {
+          items.map((item, index) => {
+            if (item.completed) {
+                return null
+            }
+            else {
+              return (
+                <ToDoItem 
+                  key={ index } 
+                  description={ item.description } 
+                  completed={ item.completed }
+                  onToggleCompleted={
+                    () => {
+                      console.log('ToDoItem onToggleCompleted recieved', index)
+                      this.onToggleItemAtIndex(index)
+                    }
+                  }
+                  onDescriptionUpdate={
+                    (description) => {
+                      console.log('ToDoItem onDescriptionUpdate recieved', description)
+                      this.onDescriptionEdit(index, description)
+                    }
+                  }
+                />
+              )
+            }
+          })
+        }
+
         <h1>Completed</h1>
         {
           items.map((item, index) => {
@@ -90,42 +143,28 @@ class App extends Component {
             else {
               return (
                 <ToDoItem 
-                key={ index } 
-                description={ item.description } 
-                completed={ item.completed }
-                onToggleCompleted={
-                  () => {
-                    console.log('ToDoItem onToggleCompleted recieved', index)
-                    this.onToggleItemAtIndex(index)
-                  }
-                } />
+                  key={ index } 
+                  description={ item.description } 
+                  completed={ item.completed }
+                  onToggleCompleted={
+                    () => {
+                      console.log('ToDoItem onToggleCompleted recieved', index)
+                      this.onToggleItemAtIndex(index)
+                    }
+                  } 
+                  onDescriptionUpdate={
+                    (description) => {
+                      console.log('ToDoItem onDescriptionUpdate recieved', description)
+                      this.onDescriptionEdit(index, description)
+                    }
+                  } 
+                />
               )
             }
           }
         )
       }
-      <h1>Incompleted</h1>
-      {
-        items.map((item, index) => {
-          if (item.completed) {
-              return null
-          }
-          else {
-            return (
-              <ToDoItem 
-              key={ index } 
-              description={ item.description } 
-              completed={ item.completed }
-              onToggleCompleted={
-                () => {
-                  console.log('ToDoItem onToggleCompleted recieved', index)
-                  this.onToggleItemAtIndex(index)
-                }
-              } />
-            )
-          }
-        })
-      }
+      
       </div>
     );
   }
