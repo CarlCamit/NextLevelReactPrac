@@ -15,18 +15,41 @@ class App extends Component {
     ]
   }
 
+  // onToggleItemAtIndex = (index) => {
+  //   this.setState((prevState) => {
+  //     // Get current items
+  //     const items = prevState.items
+  //     // Find specfic item using index
+  //     const item = items[index]
+  //     // True = False / False = True
+  //     item.completed = !item.completed
+  //     // Return the changes made
+  //     return {
+  //       items: items
+  //     }
+  //   })
+  // }
+
   onToggleItemAtIndex = (index) => {
     this.setState((prevState) => {
       // Get current items
-      const items = prevState.items
+      const beforeItems = prevState.items
       // Find specfic item using index
-      const item = items[index]
-      // True = False / False = True
-      item.completed = !item.completed
-      // Return the changes made
-      return {
-        items: items
-      }
+      const afterItems = beforeItems.map((item, currentIndex) => {
+        // If the item in the array has the index that we want to change
+        if (currentIndex === index) {
+          // Make a copy of the object by assigning contents of item to it, and set the value of completed to be the opposite
+          // const copy = Object.assign({}, item, { comepleted: !item.completed })
+          const copy = { ...item, completed: !item.completed }
+          // Return the new copy
+          return copy
+        }
+        // If it doesn't have the index
+        else {
+          // Return the original item
+          return item
+        }
+      })
     })
   }
 
