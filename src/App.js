@@ -81,9 +81,38 @@ class App extends Component {
           <dt>Total Incompleted</dt>
           <dd>{ totalIncompleted }</dd>
         </dl>
+        <h1>Completed</h1>
         {
-          items.map((item, index) => (
-            <ToDoItem 
+          items.map((item, index) => {
+            if (!item.completed) {
+              return null
+            }
+            else {
+              return (
+                <ToDoItem 
+                key={ index } 
+                description={ item.description } 
+                completed={ item.completed }
+                onToggleCompleted={
+                  () => {
+                    console.log('ToDoItem onToggleCompleted recieved', index)
+                    this.onToggleItemAtIndex(index)
+                  }
+                } />
+              )
+            }
+          }
+        )
+      }
+      <h1>Incompleted</h1>
+      {
+        items.map((item, index) => {
+          if (item.completed) {
+              return null
+          }
+          else {
+            return (
+              <ToDoItem 
               key={ index } 
               description={ item.description } 
               completed={ item.completed }
@@ -94,8 +123,9 @@ class App extends Component {
                 }
               } />
             )
-          )
-        }
+          }
+        })
+      }
       </div>
     );
   }
