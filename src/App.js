@@ -15,6 +15,21 @@ class App extends Component {
     ]
   }
 
+  onToggleItemAtIndex = (index) => {
+    this.setState((prevState) => {
+      // Get current items
+      const items = prevState.items
+      // Find specfic item using index
+      const item = items[index]
+      // True = False / False = True
+      item.completed = !item.completed
+      // Return the changes made
+      return {
+        items: items
+      }
+    })
+  }
+
   render() {
     const items = this.state.items
 
@@ -22,7 +37,16 @@ class App extends Component {
       <div className="App">
         {
           items.map((item, index) => (
-            <ToDoItem key={ index } description={ item.description } completed={ item.completed } />
+            <ToDoItem 
+              key={ index } 
+              description={ item.description } 
+              completed={ item.completed }
+              onToggleCompleted={
+                () => {
+                  console.log('ToDoItem onToggleCompleted recieved', index)
+                  this.onToggleItemAtIndex(index)
+                }
+              } />
           ))
         }
       </div>
