@@ -50,6 +50,10 @@ class App extends Component {
           return item
         }
       })
+      // Return all changes to items
+      return {
+        items: afterItems
+      }
     })
   }
 
