@@ -11,7 +11,7 @@ class App extends Component {
       { description: "First", completed: false },
       { description: "Second", completed: true },
       { description: "Third", completed: false },
-      { description: "Third", completed: true }
+      { description: "Fourth", completed: true }
     ]
   }
 
@@ -59,9 +59,28 @@ class App extends Component {
 
   render() {
     const items = this.state.items
+    const total = items.length
+    let totalCompleted = 0
+    let totalIncompleted = 0
+    items.forEach((item) => {
+      if (item.completed) {
+        totalCompleted += 1
+      }
+      else {
+        totalIncompleted += 1
+      }
+    })
 
     return (
       <div className="App">
+        <dl>
+          <dt>Total</dt>
+          <dd>{ total }</dd>
+          <dt>Total Completed</dt>
+          <dd>{ totalCompleted }</dd>
+          <dt>Total Incompleted</dt>
+          <dd>{ totalIncompleted }</dd>
+        </dl>
         {
           items.map((item, index) => (
             <ToDoItem 
@@ -74,7 +93,8 @@ class App extends Component {
                   this.onToggleItemAtIndex(index)
                 }
               } />
-          ))
+            )
+          )
         }
       </div>
     );
