@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import './App.css';
 import ToDoItem from './components/Todoitem'
 
-// Data
-const items = [
-  { description: "First", completed: true },
-  { description: "Second", completed: true },
-  { description: "Third", completed: false }
-]
-
-// UI
+  // UI
 class App extends Component {
+
+  // App now owns data therefore it is able to manipulate it
+  state = {
+    items: [
+      { description: "First", completed: false },
+      { description: "Second", completed: true },
+      { description: "Third", completed: false },
+      { description: "Third", completed: true }
+    ]
+  }
+
   render() {
+    const items = this.state.items
+
     return (
       <div className="App">
         {
